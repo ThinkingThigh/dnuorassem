@@ -13,7 +13,7 @@ let currentPage = 0; // 当前页
 function initDocs() {
   let data = fs.readFileSync(path.join(__dirname, "docs", "doc.txt"));
   textLines = data.toString().split("\n");
-  totalPage = Math.ceil(textLines.length / 100);
+  totalPage = Math.ceil(textLines.length / 50);
 }
 // 读取存档
 function getSave() {
