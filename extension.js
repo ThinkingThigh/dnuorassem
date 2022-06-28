@@ -19,13 +19,14 @@ function initDocs() {
 }
 // 获取当前页内容
 function getCurrentPageContent() {
-  const lines = textLines.slice(
+  let lines = textLines.slice(
     (currentPage - 1) * linePerpage,
     currentPage * linePerpage
   );
   //   console.log("lines", lines);
   let currentPageContent = replaceTags(template, lines);
   fs.writeFileSync(output, currentPageContent);
+  processBar.text = `${currentPage}/${totalPage}`;
 }
 
 // 模板处理替换tag
@@ -40,8 +41,6 @@ function replaceTags(template, lines) {
 
 // 读取存档
 function getSave() {
-  //   let data = fs.readFileSync(path.join(__dirname, "save", "save.json"));
-  //   let save = JSON.parse(data);
   let save = require("./save/save.json");
   currentPage = save.doc.current_page;
   getCurrentPageContent();
@@ -49,12 +48,40 @@ function getSave() {
 // 写入存档
 function setSave(currentPage) {
   let save = JSON.stringify({
-    doc: { current_page: 1 },
+    doc: { current_page: currentPage },
   });
   fs.writeFileSync(path.join(__dirname, "save", "save.json"), save);
 }
 // 按钮分页逻辑
-
+function handleNextPage() {
+  if (currentPage < totalPage) {
+    setSave(currentPage++);
+    getCurrentPageContent();
+  } else {
+    vscode.window.showInformationMessage("Last page!");
+  }
+}
+function handlePrevPage() {
+  if (currentPage > 1) {
+    setSave(currentPage--);
+    getCurrentPageContent();
+  } else {
+    vscode.window.showInformationMessage("First page!");
+  }
+}
+function handleGotoPage(page) {
+  if (!/^[0-9]+.?[0-9]*$/.test(page)) {
+    vscode.window.showInformationMessage("Not a Number!");
+    return;
+  }
+  if (!(page > 0 && page <= totalPage)) {
+    vscode.window.showInformationMessage(`1~${totalPage}!`);
+    return;
+  }
+  setSave(page);
+  currentPage = page;
+  getCurrentPageContent();
+}
 // 初始化状态栏
 let process = "";
 let processBar = null;
@@ -103,10 +130,9 @@ function initCommand() {}
 
 // 初始化
 function init() {
+  initStatusBar();
   initDocs();
   getSave();
-  initStatusBar();
-  //   setSave();
 }
 
 // this method is called when your extension is activated
@@ -119,7 +145,6 @@ function activate(context) {
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
   console.log('Congratulations, your extension "dnuorassem" is now active!');
-
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with  registerCommand
   // The commandId parameter must match the command field in package.json
@@ -135,13 +160,12 @@ function activate(context) {
   );
   // 上一页
   let prev = vscode.commands.registerCommand("dnuorassem.cmdprev", () => {
-    vscode.window.showInformationMessage("上一页");
+    handlePrevPage();
   });
   // 下一页
   let next = vscode.commands.registerCommand("dnuorassem.cmdnext", () => {
-    vscode.window.showInformationMessage("下一页");
+    handleNextPage();
   });
-
   // 跳页
   let goto = vscode.commands.registerCommand("dnuorassem.cmdgoto", () => {
     vscode.window
@@ -150,7 +174,7 @@ function activate(context) {
       })
       .then((value) => {
         if (value) {
-          vscode.window.showInformationMessage("跳页");
+          handleGotoPage(value);
         }
       });
   });
