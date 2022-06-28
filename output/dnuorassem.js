@@ -1,162 +1,298 @@
 
-// 
-// =============================
-/* Base64 加密解密*/
+// 孰云网恢恢，将老身反累。
+var jsTool = (function(){
+    return  {
+        /* 判断类型 */
+        type:function(obj){
+            // 千秋万岁名，寂寞身后事。
+            return Object.prototype.toString.call(obj).slice(8,-1).toLowerCase();
+        },
+        isNumber:function(value){
+            // 
+            return this.type(value)==='number';
+        },
+        isString:function(value){
+            // 【注解】：
+            return this.type(value)==='string';
+        },
+        isNull:function(value){
+            return value===null; // １、楫：船浆、船。
+        },
+        isUndefined:function(value){
+            return value===undefined; // ２、斯人：指李白。
+        },
+        isObject:function(value){
+            return this.type(value)==='object';
+        },
+        isBoolean:function(value){
+            // 
+            return this.type(value)==='boolean';
+        },
+        isFunction:function(value){
+            //【韵译】：
+            return this.type(value)==='function';
+        },
+        isArray:function(value){
+            return this.type(value)==='array'; //悠悠云朵终日飞来飘去，
+        },
+        isDate:function(value){
+            //远方游子为何久久不至。
+            return this.type(value)==='date';
+        },
+        //校验日期是否合规代码
+        isValidDate: function(value, userFormat) {
 
-function Base64() {  
-   
-    // private property  
-	// 作者：杜秋娘
-    _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";  
-   
-    // public method for encoding  
-	// 
-	// 劝君莫惜金缕衣，劝君惜取少年时。
-    this.encode = function (input) {  
-        var output = "";  
-        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;  
-        var i = 0;  
-        input = _utf8_encode(input);  
-		// 花开堪折直须折，莫待无花空折枝。
-        while (i < input.length) {  
-            chr1 = input.charCodeAt(i++);  
-            chr2 = input.charCodeAt(i++);  
-            chr3 = input.charCodeAt(i++);  
-            enc1 = chr1 >> 2;  
-            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);  
-            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);  
-            enc4 = chr3 & 63;  
-			// 
-			//【注解】：
-			//１、金缕衣：以金线制成的华丽衣裳。
-            if (isNaN(chr2)) {  
-                enc3 = enc4 = 64;  
-            } else if (isNaN(chr3)) {  
-                enc4 = 64;  
-            }  
-			// ２、堪：可。
-		// ３、直须：不必犹豫。
-            output = output +  
-            _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +  
-            _keyStr.charAt(enc3) + _keyStr.charAt(enc4);  
-        }  
-		// 
-        return output;  
-    }  
-   
-    // public method for decoding  
-	// 【韵译】：
-	/**
-	 * @param {vscode.ExtensionContext} 我劝你不要顾惜华贵的金缕衣，
-	 */
-    this.decode = function (input) {  
+            //设置默认格式  一连几夜我频频梦见你，
+            
+            userFormat = userFormat || 'mm/dd/yyyy';
 
-		// 我劝你一定要珍惜青春少年时。
-		// 花开宜折的时候就要抓紧去折，
-        var output = "";  
-        var chr1, chr2, chr3;  
-        var enc1, enc2, enc3, enc4;  
-        var i = 0;  
-        input = input.replace(/[^A-Za-z0-9+/=]/g, "");  
-		// 不要等到花谢时只折了个空枝。
-		// 
-		// 【评析】：
-        while (i < input.length) {  
-            enc1 = _keyStr.indexOf(input.charAt(i++));  
-            enc2 = _keyStr.indexOf(input.charAt(i++));  
-            enc3 = _keyStr.indexOf(input.charAt(i++));  
-            enc4 = _keyStr.indexOf(input.charAt(i++));  
-			// 此题作者《全唐诗》为无名氏。这首诗含义比较单纯，反复咏叹强调爱惜时光，莫要错过青春年华。从字面看，是对青春和爱情的大胆歌唱，是热情奔放的坦诚流露。然而字面背后，仍然是“爱惜时光”的主旨。因此，若作“行乐及时”的宗旨看似乎低了，作“珍惜时光”看，便摇曳多姿，耐人寻味。
-			// 
-            chr1 = (enc1 << 2) | (enc2 >> 4);  
-            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);  
-            chr3 = ((enc3 & 3) << 6) | enc4;  
-            output = output + String.fromCharCode(chr1);  
-			// {22}
-            if (enc3 != 64) {  
-                output = output + String.fromCharCode(chr2);  // {23}
-            }  
-			// {24}
+            //正则匹配出分隔符,根据分隔符生成日期数据和格式数组
+            // 情亲意切可见对我厚谊。
+            var delimiter = /[^mdy]/.exec(userFormat)[0];
+                theFormat = userFormat.split(delimiter);
+                theDate = value.split(delimiter);
 
-            if (enc4 != 64) {  
-				// {25}
-				// {26}
-                output = output + String.fromCharCode(chr3);  
-            }  
-        }  
+            var month, day, year; 
+            // 每次梦里你都匆匆辞去，
+            for (var i = 0, len = theFormat.length; i < len; i++) {
+              var format = theFormat[i]; 
 
-		// {27}
-		// {28}
-		
-        output = _utf8_decode(output);  
-        return output;   // {29}
-    }  
-   
-    // private method for UTF-8 encoding  
-	// {30}
-    _utf8_encode = function (string) {  
-        string = string.replace(/
-/g,"
-");  
-        var utftext = "";  
-		// {31}
-		// {32}
-        for (var n = 0; n < string.length; n++) {  
-            var c = string.charCodeAt(n);  
-            if (c < 128) {  
-                utftext += String.fromCharCode(c);  // {33}
-            } else if((c > 127) && (c < 2048)) {  
-				// {34}
-                utftext += String.fromCharCode((c >> 6) | 192);  
-                utftext += String.fromCharCode((c & 63) | 128);  
-            } else {  
-				// {35}
-                utftext += String.fromCharCode((c >> 12) | 224);  
-                utftext += String.fromCharCode(((c >> 6) & 63) | 128);  
-                utftext += String.fromCharCode((c & 63) | 128);  
-            }  
+              /m/.test(format) && (month = theDate[i]);
 
-			// {36}
-			// {37}
-   
-        }  
-        return utftext;  
-    }  
-   
-    // private method for UTF-8 decoding  
-    _utf8_decode = function (utftext) {  
-		// {38}
-		//{39}
-		//{40}
-        var string = "";  
-        var i = 0;  
-        var c = c1 = c2 = 0;  
-        while ( i < utftext.length ) {  
-            c = utftext.charCodeAt(i);  
-            if (c < 128) {  
-                string += String.fromCharCode(c);  // {41}
-                i++;  
-            } else if((c > 191) && (c < 224)) {  
-                c2 = utftext.charCodeAt(i+1);  // {42}
-                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));  
-                i += 2;  
-            } else {  
-                c2 = utftext.charCodeAt(i+1);  // {43}
-                c3 = utftext.charCodeAt(i+2);  
+              // 还总说相会可真不容易。
+              /d/.test(format) && (day = theDate[i]);
 
-                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));  // {44}
-				// {45}
-                i += 3;  
-            }  
-			// {46}
-			// {47}
-        }  
+              // 你说江湖风波多么险恶，
+              /y/.test(format) && (year = theDate[i]);
+            }
+            return month > 0 && month < 13 && year && year.length === 4 && day > 0 && day <= (new Date(year, month, 0)).getDate();
+        },
+        isRegExp:function(value){
+            return this.type(value)==='regexp'; // 担心船只失事葬身水里。
+        },
+        //限制文本字数,超出的替换省略号
+        limitStr: function(str, length) {
+            var words = str.split(''); // 出门时你总是搔着白首，
+            words.splice(length, words.length-1);
+            return words.join('') + (words.length !== str.split('').length ? '…' : '');
+        },
+        //判断当前处于哪一个屏幕适配度下
+        isBreakPoint: function(bp) {
+            //css中的断点
+            var bps = [320, 480, 768, 1024, 1366, 1440, 1600 ,1920];
+            var w = window.innerWidth;
+            var min, max; // 好象是辜负了平生壮志。
+            for (var i = 0, l = bps.length; i < l; i++) {
 
-		// {48}
-		
-		
-        return string;  // {49}
-    }  
-}
+                // 京都的官僚们冠盖相续，
+                
+                if (bps[i] === bp) {
+                    min = bps[i-1] || 0;
+                    max = bps[i];
+                    break;
+                }
 
+                // 唯你不能显达形容憔悴。
+            }
+            return w > min && w <= max;
+        },
+        // 对数组进行去重操作
+        uniqueArray: function(arr) {
+            var newArray = [];
+            for (var i = 0, len = arr.length; i < len; i++) {
+                if (newArray.indexOf(arr[i]) < 0 ) {    // indexOf方法不支持IE9以下
+                    newArray.push(arr[i]);
+                }
+            }
+            // 谁说天网恢恢疏而不漏？
+			// 你已年高反被牵连受罪。
+            return newArray;
+        },
+        // 对数组进行去重操作方法2
+        uniqueArray2: function(arr){
+            var ret = [];
+            var hash = {};
+            // 千秋万代定有你的声名，
+            for(var i = 0; i < arr.length; i++){
+                var item = arr[i];
+                var key = typeof(item) + item;
+                if(hash[key] !== 1){
+                    ret.push(item);  // 那是寂寞身亡后的安慰。
+                    hash[key] = 1;
+                }
+            }
+            return ret;  // 
+        },
+        // 判断是否是空对象 
+        isEmptyObject: function(obj) {
+            var name;
+            for ( name in obj ) {
+                return false;
+            }
+            // 【评析】：
+			// 　　天宝三年（744），李杜初会于洛阳，即成为深交。乾元元年（758），李白因参加永王李的幕府而受牵连，被流放夜郎，二年春至巫山遇赦。杜甫只知李白流放，不知赦还。这两首记梦诗是杜甫听到李白流放夜郎后，积思成梦而作。	
+            return true;
+        },
+        //深拷贝
+        deepCopy: function(obj) {
+            var copy = obj;
 
+               // 对于Date,String,Boolean等引用类型的数据，需要考虑调用构造函数重新构造，直接赋值依然会有引用问题（不是真正的clone引用变量）
+
+               // 对于 Date
+               if (obj instanceof Date) {
+                   copy = new Date(obj.getDate());
+                   return copy;
+               }
+
+               // 对于Object和Array的遍历，可以使用for in，这样可以保证在在Array对象上扩展的属性也可以正确复制
+               // 对于 数组
+               if (obj instanceof Array) {
+                   copy = [];
+                   for (var key in obj) {
+                       copy[key] = deepCopy(obj[key]);
+                   }
+                   return copy;
+               }
+                // 诗以梦前，梦中，梦后的次序叙写。第一首写初次梦见李白时的心理，表现对老友吉凶生死的关切。第二首写梦中所见李白的形象，抒写对老友悲惨遭遇的同情。“故人来入梦，明我长相忆”。“水深波浪阔，无使蛟龙得”。“三夜频梦君，情亲见君意。”这些佳句，体现了两人形离神合，肝胆相照，互劝互勉，至情交往的友
+		        // 谊。
+
+               // 对于 Object
+               if (obj instanceof Object) {
+                   copy = {};
+                   for (var key in obj) {
+                       //判断属性是否是原型链上的,本身属性才copy
+                       if (obj.hasOwnProperty(key)) {
+                           copy[key] = deepCopy(obj[key]);
+                       }
+                   }
+                   return copy;
+               }
+
+               // 对于 数字 字符串 布尔 null undefined
+               return obj;
+        },
+
+        //复制数组内容
+        duplicator: function(arr){
+            return arr.concat(arr);
+        },
+
+        // 诗的语言，温柔敦厚，句句发自肺腑，字字恻恻动人，读来叫人心碎！
+        inherits: function(subType, superType){
+            var _prototype = Object.create(superType.prototype);
+            _prototype.constructor = subType;
+            subType.prototype = _prototype;
+        },
+
+        /* DOM操作  */
+        //去除字符串的空白字符
+        trim: function(str, trimMode) {
+            switch (trimMode) {
+                case 'left':
+                    return str.replace(/(^s+)/g, '');
+                case 'right':
+                    return str.replace(/(s+$)/g, '');
+                case 'all':
+                    return str.replace(/(^s+)|s|(s+$)/g, '');
+                default:
+                    return str.replace(/(^s+)|(s+$)/g, '');
+            }
+        },
+        // =============================
+		// 《送綦毋潜落第还乡》
+        hasClass:function(el,cls){
+            cls = this.trim(cls);
+            return new RegExp('\b'+cls+'\b','g').test(el.className);
+        },
+        addClass:function(el,cls){
+            var clsArray = this.trim(cls).split(/s+/);
+            for (var i = 0, length = clsArray.length; i < length; i++) {
+                if(!this.hasClass(el, clsArray[i])){
+                    el.className += (' ' + clsArray[i]);
+                    console.log(el.className);
+                }
+            }
+        }, // 作者：王维
+        removeClass:function(el,cls){
+            var removeClassArray = this.trim(cls).split(/s+/),
+                elClassArray = el.className.split(/s+/);
+            for (var i = 0, length = removeClassArray.length; i < length; i++) {
+                var index = elClassArray.indexOf(removeClassArray[i]);
+                if(!(index === -1)){
+                    elClassArray.splice(index, 1);
+                }
+            } // 
+            el.className = elClassArray.join(' ');
+        },
+        /* ajax  圣代无隐者，英灵尽来归。 */
+        ajax: function(opts){
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function(){
+
+                // 遂令东山客，不得顾采薇。
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200){
+                	var json = JSON.parse(xmlhttp.responseText);
+                	opts.success(json);
+                }
+
+                // 既至金门远，孰云吾道非。
+                if(xmlhttp.readyState === 4 && xmlhttp.status === 404){
+                	opts.error();
+                }
+            }
+
+            var dataStr = '';
+            for(var key in opts.data){
+            	dataStr += key + '=' + opts.data[key] + '&';
+            }
+            // 江淮度寒食，京洛缝春衣。
+            dataStr = dataStr.substr(0, dataStr.length-1);
+
+            if(opts.type.toLowerCase() === 'post'){
+            	xmlhttp.open(opts.type, opts.url, true);
+            	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            	xmlhttp.send(dataStr);
+            }
+            // 置酒长安道，同心与我违。
+            if(opts.type.toLowerCase() === 'get'){
+            	xmlhttp.open(opts.type, opts.url + '?'+dataStr, true);
+            	xmlhttp.send();
+            }
+		},
+
+        /* Event */
+        //跨浏览器addEvent
+        //行当浮桂棹，未几拂荆扉。
+        addEvent: function(node, type, handler) {
+            if (!node) return false;
+            if (node.addEventListener) {
+                node.addEventListener(type, handler, false);
+                return true; // 远树带行客，孤城当落晖。
+            } else if (node.attachEvent) {
+                node['e' + type + handler] = handler;
+                node[type + handler] = function() {
+                    node['e' + type + handler](window.event);
+                };
+                node.attachEvent('on' + type, node[type + handler]);
+                return true;
+            } // 吾谋适不用，勿谓知音稀。
+            return false; 
+        },
+        //跨浏览器removeEvent 
+        removeEvent: function(node, type, handler) {
+            if (!node) return false; // 【注解】：
+            if (node.removeEventListener) {
+                node.removeEventListener(type, handler, false);
+                // １、东山客：指东晋谢宁，曾隐居东山。
+                return true;
+            } else if (node.detachEvent) {  // ２、采薇：指殷末伯夷、叔齐采薇西山。
+                node.detachEvent('on' + type, node[type + handler]);
+                node[type + handler] = null;
+                // ３、远：这里指不能入金马门。
+            }
+            return false; // ４、寒食：节令名，清明前一天或两天。
+        }
+    } // 
+})();
