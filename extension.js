@@ -56,34 +56,57 @@ function setSave(currentPage) {
 // 按钮分页逻辑
 
 // 初始化状态栏
+let process = "";
+let processBar = null;
+let nextBar = null;
+let prevBar = null;
+let gotoBar = null;
+
 function initStatusBar() {
-  let process = `${currentPage}/${totalPage}`;
+  process = `${currentPage}/${totalPage}`;
   processBar = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Right
+    vscode.StatusBarAlignment.Left
   );
   processBar.text = process;
-  processBar.command = "extension.clickStatusBar";
   // up
   prevBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
   prevBar.text = "↑";
-  prevBar.command = "extension.prevpage";
+  prevBar.command = "dnuorassem.cmdprev";
 
   // down
   nextBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
   nextBar.text = "↓";
-  nextBar.command = "extension.nextpage";
-  // go
-  jumpBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-  jumpBar.text = "go";
-  jumpBar.command = "extension.jumppage";
+  nextBar.command = "dnuorassem.cmdnext";
+  // goto
+  gotoBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+  gotoBar.text = "goto";
+  gotoBar.command = "dnuorassem.cmdgoto";
 }
+
+// 是否显示ToolBar
+function isShowToolBar(flag) {
+  if (flag) {
+    prevBar.show();
+    nextBar.show();
+    gotoBar.show();
+    processBar.show();
+  } else {
+    prevBar.hide();
+    nextBar.hide();
+    gotoBar.hide();
+    processBar.hide();
+  }
+}
+
+// 注册命令
+function initCommand() {}
 
 // 初始化
 function init() {
   initDocs();
   getSave();
   initStatusBar();
-  setSave();
+  //   setSave();
 }
 
 // this method is called when your extension is activated
@@ -107,11 +130,40 @@ function activate(context) {
 
       // Display a message box to the user
       vscode.window.showInformationMessage("Hello World from dnuorassem!");
+      vscode.window.showTextDocument(vscode.Uri.file(output));
     }
   );
+  // 上一页
+  let prev = vscode.commands.registerCommand("dnuorassem.cmdprev", () => {
+    vscode.window.showInformationMessage("上一页");
+  });
+  // 下一页
+  let next = vscode.commands.registerCommand("dnuorassem.cmdnext", () => {
+    vscode.window.showInformationMessage("下一页");
+  });
+
+  // 跳页
+  let goto = vscode.commands.registerCommand("dnuorassem.cmdgoto", () => {
+    vscode.window
+      .showInputBox({
+        placeHolder: "page?",
+      })
+      .then((value) => {
+        if (value) {
+          vscode.window.showInformationMessage("跳页");
+        }
+      });
+  });
   init();
+  // 切换tab显示隐藏toolbar
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    isShowToolBar(vscode.window.activeTextEditor.document.uri.fsPath == output);
+  });
 
   context.subscriptions.push(disposable);
+  context.subscriptions.push(prev);
+  context.subscriptions.push(next);
+  context.subscriptions.push(goto);
 }
 
 // this method is called when your extension is deactivated
