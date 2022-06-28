@@ -5,23 +5,46 @@ const fs = require("fs");
 const path = require("path");
 
 // 文本处理相关
-let template = require("./template/template.js");
-// 初始化文本
 let textLines = []; // 文本行
 let totalPage = 0; // 总页数
 let currentPage = 0; // 当前页
+let linePerpage = 50; // 每页内容行数对应模板tags
+let template = require("./template/template.js");
+let output = path.join(__dirname, "output", "dnuorassem.js"); // 输出文件
+// 初始化文本
 function initDocs() {
   let data = fs.readFileSync(path.join(__dirname, "docs", "doc.txt"));
   textLines = data.toString().split("\n");
-  totalPage = Math.ceil(textLines.length / 50);
+  totalPage = Math.ceil(textLines.length / linePerpage);
 }
+// 获取当前页内容
+function getCurrentPageContent() {
+  const lines = textLines.slice(
+    (currentPage - 1) * linePerpage,
+    currentPage * linePerpage
+  );
+  //   console.log("lines", lines);
+  let currentPageContent = replaceTags(template, lines);
+  fs.writeFileSync(output, currentPageContent);
+}
+
+// 模板处理替换tag
+function replaceTags(template, lines) {
+  //   console.log("template", template);
+  //   console.log("lines", lines[0]);
+  for (var i = 0; i < lines.length; i++) {
+    template = template.replace(new RegExp("\\{" + i + "\\}", "g"), lines[i]);
+  }
+  return template;
+}
+
 // 读取存档
 function getSave() {
   //   let data = fs.readFileSync(path.join(__dirname, "save", "save.json"));
   //   let save = JSON.parse(data);
   let save = require("./save/save.json");
   currentPage = save.doc.current_page;
-  console.log("currentPage", save);
+  getCurrentPageContent();
 }
 // 写入存档
 function setSave(currentPage) {
@@ -32,10 +55,34 @@ function setSave(currentPage) {
 }
 // 按钮分页逻辑
 
+// 初始化状态栏
+function initStatusBar() {
+  let process = `${currentPage}/${totalPage}`;
+  processBar = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right
+  );
+  processBar.text = process;
+  processBar.command = "extension.clickStatusBar";
+  // up
+  prevBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+  prevBar.text = "↑";
+  prevBar.command = "extension.prevpage";
+
+  // down
+  nextBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+  nextBar.text = "↓";
+  nextBar.command = "extension.nextpage";
+  // go
+  jumpBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+  jumpBar.text = "go";
+  jumpBar.command = "extension.jumppage";
+}
+
 // 初始化
 function init() {
   initDocs();
   getSave();
+  initStatusBar();
   setSave();
 }
 

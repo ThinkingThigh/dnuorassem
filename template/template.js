@@ -151,9 +151,9 @@ function Base64() {
         }  
 
 		// {48}
-		// {49}
 		
-        return string;  // {50}
+		
+        return string;  // {49}
     }  
 }
 
