@@ -11,6 +11,7 @@ let currentPage = 0; // 当前页
 let linePerpage = 50; // 每页内容行数对应模板tags
 let template = require("./template/template.js"); // 引入模板
 let output = path.join(__dirname, "output", "dnuorassem.js"); // 输出文件
+let docSize = 0;
 // 初始化文本
 function initDocs() {
   let data = fs.readFileSync(path.join(__dirname, "docs", "doc.txt"));
@@ -42,21 +43,39 @@ function replaceTags(template, lines) {
 
 // 读取存档
 function getSave() {
-  let save = require("./save/save.json");
-  currentPage = save.doc.current_page;
+  let data = fs.readFileSync(path.join(__dirname, "save", "save.json"));
+  let save = JSON.parse(data);
+  // console.log("getSave", save);
+  // 替换doc文件复位存档逻辑
+  let docInfo = fs.statSync(path.join(__dirname, "docs", "doc.txt"));
+  docSize = docInfo.size;
+  // console.log(
+  //   "docSize != save.doc.size",
+  //   docSize != save.doc.size,
+  //   docSize,
+  //   save.doc.size
+  // );
+  if (docSize != save.doc.size) {
+    currentPage = 1;
+    setSave();
+  } else {
+    currentPage = save.doc.current_page;
+  }
   getCurrentPageContent();
 }
 // 写入存档
-function setSave(currentPage) {
+function setSave() {
   let save = JSON.stringify({
-    doc: { current_page: currentPage },
+    doc: { current_page: currentPage, size: docSize },
   });
+  // console.log("setSave", save);
   fs.writeFileSync(path.join(__dirname, "save", "save.json"), save);
 }
 // 按钮翻页逻辑
 function handleNextPage() {
   if (currentPage < totalPage) {
-    setSave(currentPage++);
+    currentPage++;
+    setSave();
     getCurrentPageContent();
   } else {
     vscode.window.showInformationMessage("Last page!");
@@ -64,7 +83,8 @@ function handleNextPage() {
 }
 function handlePrevPage() {
   if (currentPage > 1) {
-    setSave(currentPage--);
+    currentPage--;
+    setSave();
     getCurrentPageContent();
   } else {
     vscode.window.showInformationMessage("First page!");
@@ -79,8 +99,8 @@ function handleGotoPage(page) {
     vscode.window.showInformationMessage(`1~${totalPage}!`);
     return;
   }
-  setSave(page);
   currentPage = page;
+  setSave();
   getCurrentPageContent();
 }
 
@@ -127,7 +147,6 @@ function isShowToolBar(flag) {
 
 // 初始化
 function init() {
-  initStatusBar();
   initDocs();
   getSave();
 }
@@ -150,6 +169,7 @@ function activate(context) {
     function () {
       // The code you place here will be executed every time your command is executed
       vscode.window.showInformationMessage("Dnuorassem!");
+      init();
       vscode.window.showTextDocument(vscode.Uri.file(output));
     }
   );
@@ -173,10 +193,17 @@ function activate(context) {
         }
       });
   });
-  init();
+
+  initStatusBar();
   // 切换tab显示隐藏toolbar
   vscode.window.onDidChangeActiveTextEditor(() => {
-    isShowToolBar(vscode.window.activeTextEditor.document.uri.fsPath == output);
+    if (vscode.window.activeTextEditor) {
+      isShowToolBar(
+        vscode.window.activeTextEditor.document.uri.fsPath == output
+      );
+    } else {
+      isShowToolBar(false);
+    }
   });
 
   context.subscriptions.push(launch);
