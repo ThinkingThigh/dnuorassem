@@ -2,7 +2,7 @@
   "name": "dnuorassem",
   "displayName": "dnuorassem",
   "description": "Code annotation text reader.",
-  "author": "thinkingthigh",
+  "publisher": "thinkingthigh",
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.68.0"
