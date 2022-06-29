@@ -1,8 +1,9 @@
 {
   "name": "dnuorassem",
   "displayName": "dnuorassem",
-  "description": "",
-  "version": "0.0.1",
+  "description": "Code annotation text reader.",
+  "author": "thinkingthigh",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.68.0"
   },
@@ -26,6 +27,10 @@
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "node ./test/runTest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThinkingThigh/dnuorassem"
   },
   "devDependencies": {
     "@types/vscode": "^1.68.0",
