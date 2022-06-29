@@ -9,7 +9,7 @@ let textLines = []; // 文本行
 let totalPage = 0; // 总页数
 let currentPage = 0; // 当前页
 let linePerpage = 50; // 每页内容行数对应模板tags
-let template = require("./template/template.js");
+let template = require("./template/template.js"); // 引入模板
 let output = path.join(__dirname, "output", "dnuorassem.js"); // 输出文件
 // 初始化文本
 function initDocs() {
@@ -23,9 +23,10 @@ function getCurrentPageContent() {
     (currentPage - 1) * linePerpage,
     currentPage * linePerpage
   );
-  //   console.log("lines", lines);
+  // console.log("lines", lines);
   let currentPageContent = replaceTags(template, lines);
   fs.writeFileSync(output, currentPageContent);
+  // 翻页后更新进度显示
   processBar.text = `${currentPage}/${totalPage}`;
 }
 
@@ -52,7 +53,7 @@ function setSave(currentPage) {
   });
   fs.writeFileSync(path.join(__dirname, "save", "save.json"), save);
 }
-// 按钮分页逻辑
+// 按钮翻页逻辑
 function handleNextPage() {
   if (currentPage < totalPage) {
     setSave(currentPage++);
@@ -82,24 +83,23 @@ function handleGotoPage(page) {
   currentPage = page;
   getCurrentPageContent();
 }
+
 // 初始化状态栏
-let process = "";
 let processBar = null;
 let nextBar = null;
 let prevBar = null;
 let gotoBar = null;
 
 function initStatusBar() {
-  process = `${currentPage}/${totalPage}`;
+  // 进度
   processBar = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left
   );
-  processBar.text = process;
+  processBar.text = `${currentPage}/${totalPage}`;
   // up
   prevBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
   prevBar.text = "↑";
   prevBar.command = "dnuorassem.cmdprev";
-
   // down
   nextBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
   nextBar.text = "↓";
@@ -125,9 +125,6 @@ function isShowToolBar(flag) {
   }
 }
 
-// 注册命令
-function initCommand() {}
-
 // 初始化
 function init() {
   initStatusBar();
@@ -148,13 +145,11 @@ function activate(context) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with  registerCommand
   // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
-    "dnuorassem.helloWorld",
+  let launch = vscode.commands.registerCommand(
+    "dnuorassem.launch",
     function () {
       // The code you place here will be executed every time your command is executed
-
-      // Display a message box to the user
-      vscode.window.showInformationMessage("Hello World from dnuorassem!");
+      vscode.window.showInformationMessage("Dnuorassem!");
       vscode.window.showTextDocument(vscode.Uri.file(output));
     }
   );
@@ -184,7 +179,7 @@ function activate(context) {
     isShowToolBar(vscode.window.activeTextEditor.document.uri.fsPath == output);
   });
 
-  context.subscriptions.push(disposable);
+  context.subscriptions.push(launch);
   context.subscriptions.push(prev);
   context.subscriptions.push(next);
   context.subscriptions.push(goto);
