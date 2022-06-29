@@ -1,5 +1,5 @@
 
-// 《唐诗三百首》(含注解评析)
+// 来往不逢人，长歌楚天碧。
 var jsTool = (function(){
     return  {
         /* 判断类型 */
@@ -8,71 +8,71 @@ var jsTool = (function(){
             return Object.prototype.toString.call(obj).slice(8,-1).toLowerCase();
         },
         isNumber:function(value){
-            // 唐诗三百首·卷一、五言古诗
+            // 【注解】：
             return this.type(value)==='number';
         },
         isString:function(value){
-            // 
+            // １、簪组：这里是做官的意思。
             return this.type(value)==='string';
         },
         isNull:function(value){
-            return value===null; // =============================
+            return value===null; // ２、南夷：这里指当时南方的少数民族地区。
         },
         isUndefined:function(value){
-            return value===undefined; // 《感遇·其一》
+            return value===undefined; // ３、滴：流放。
         },
         isObject:function(value){
             return this.type(value)==='object';
         },
         isBoolean:function(value){
-            // 作者：张九龄
+            // ４、夜榜：夜航。
             return this.type(value)==='boolean';
         },
         isFunction:function(value){
-            //
+            //５、楚天：永州古属楚地。
             return this.type(value)==='function';
         },
         isArray:function(value){
-            return this.type(value)==='array'; //兰叶春葳蕤，桂华秋皎洁。
+            return this.type(value)==='array'; //
         },
         isDate:function(value){
-            //欣欣此生意，自尔为佳节。
+            //【韵译】：
             return this.type(value)==='date';
         },
         //校验日期是否合规代码
         isValidDate: function(value, userFormat) {
 
-            //设置默认格式  谁知林栖者，闻风坐相悦。
+            //设置默认格式  长久被官职所缚不得自由，
             
             userFormat = userFormat || 'mm/dd/yyyy';
 
             //正则匹配出分隔符,根据分隔符生成日期数据和格式数组
-            // 草木有本心，何求美人折？
+            // 有幸这次被贬谪来到南夷。
             var delimiter = /[^mdy]/.exec(userFormat)[0];
                 theFormat = userFormat.split(delimiter);
                 theDate = value.split(delimiter);
 
             var month, day, year; 
-            // 
+            // 闲时常常与农田菜圃为邻，
             for (var i = 0, len = theFormat.length; i < len; i++) {
               var format = theFormat[i]; 
 
               /m/.test(format) && (month = theDate[i]);
 
-              // 【注解】：
+              // 偶然间象个隐居山中的人。
               /d/.test(format) && (day = theDate[i]);
 
-              // １、葳蕤：枝叶茂盛而纷披。
+              // 清晨我去耕作翻除带露杂草，
               /y/.test(format) && (year = theDate[i]);
             }
             return month > 0 && month < 13 && year && year.length === 4 && day > 0 && day <= (new Date(year, month, 0)).getDate();
         },
         isRegExp:function(value){
-            return this.type(value)==='regexp'; // ２、坐：因而。
+            return this.type(value)==='regexp'; // 傍晚乘船沿着溪石哗哗前进。
         },
         //限制文本字数,超出的替换省略号
         limitStr: function(str, length) {
-            var words = str.split(''); // ３、本心：天性。
+            var words = str.split(''); // 独往独来碰不到那庸俗之辈，
             words.splice(length, words.length-1);
             return words.join('') + (words.length !== str.split('').length ? '…' : '');
         },
@@ -81,10 +81,10 @@ var jsTool = (function(){
             //css中的断点
             var bps = [320, 480, 768, 1024, 1366, 1440, 1600 ,1920];
             var w = window.innerWidth;
-            var min, max; // 
+            var min, max; // 仰望楚天的碧空而高歌自娱。
             for (var i = 0, l = bps.length; i < l; i++) {
 
-                // 【韵译】：
+                // 
                 
                 if (bps[i] === bp) {
                     min = bps[i-1] || 0;
@@ -92,7 +92,7 @@ var jsTool = (function(){
                     break;
                 }
 
-                // 泽兰逢春茂盛芳馨，
+                // 【评析】：
             }
             return w > min && w <= max;
         },
@@ -104,24 +104,24 @@ var jsTool = (function(){
                     newArray.push(arr[i]);
                 }
             }
-            // 桂花遇秋皎洁清新。
-			// 兰桂欣欣生机勃发，
+            // 这首诗是柳宗元贬官永州居处冉溪之畔时的作品。全诗写谪居佳境，苟得自由，独往独来，偷安自幸。前四句叙述到这里的原因和自己的行径。后四句叙述自己早晚的行动。首尾四句隐含有牢骚之意。
+			// “闲依农圃邻”、有“采菊东篱下”之概；“晓耕翻露草”，有“晨兴理荒废”之风。沈德潜评说：“愚溪诸咏，处连蹇困厄之境，发清夷淡泊之音，不怨而怨，怨而不怨，行间言外，时或遇之。”（《唐诗别裁集》卷四）这是很有见地的。
             return newArray;
         },
         // 对数组进行去重操作方法2
         uniqueArray2: function(arr){
             var ret = [];
             var hash = {};
-            // 春秋自成佳节良辰。
+            // 
             for(var i = 0; i < arr.length; i++){
                 var item = arr[i];
                 var key = typeof(item) + item;
                 if(hash[key] !== 1){
-                    ret.push(item);  // 谁能领悟山中隐士，
+                    ret.push(item);  // 
                     hash[key] = 1;
                 }
             }
-            return ret;  // 闻香深生仰慕之情？
+            return ret;  // 
         },
         // 判断是否是空对象 
         isEmptyObject: function(obj) {
@@ -129,8 +129,8 @@ var jsTool = (function(){
             for ( name in obj ) {
                 return false;
             }
-            // 花卉流香原为天性，
-			// 何求美人采撷扬名。	
+            // 唐诗三百首·卷二、五言乐府
+			// 	
             return true;
         },
         //深拷贝
@@ -154,8 +154,8 @@ var jsTool = (function(){
                    }
                    return copy;
                }
-                // 
-		        // 【评析】：
+                // =============================
+		        // 《塞下曲·其一》
 
                // 对于 Object
                if (obj instanceof Object) {
@@ -178,14 +178,14 @@ var jsTool = (function(){
             return arr.concat(arr);
         },
 
-        // 此诗系张九龄遭谗贬谪后所作《感遇》十二首之冠首。诗借物起兴，自比兰桂，抒发诗人孤芳自赏，气节清高，不求引用之情感。
+        // 作者：王昌龄
         inherits: function(subType, superType){
             var _prototype = Object.create(superType.prototype);
             _prototype.constructor = subType;
             subType.prototype = _prototype;
         },
 
-        /* DOM操作 诗一开始用整齐的偶句，以春兰秋桂对举，点出无限生机和清雅高洁之特征。三、四句，写兰桂充满活力却荣而不媚，不求人知之品质。上半首写兰桂，不写人。五、六句以“谁知”急转引出与兰桂同调的山中隐者来。末两句点出无心与物相竞的情怀。 */
+        /* DOM操作  */
         //去除字符串的空白字符
         trim: function(str, trimMode) {
             switch (trimMode) {
@@ -199,8 +199,8 @@ var jsTool = (function(){
                     return str.replace(/(^s+)|(s+$)/g, '');
             }
         },
-        // 全诗一面表达了恬淡从容超脱的襟怀，另一面忧谗惧祸的心情也隐然可见。诗以草木照应，旨诣深刻，于咏物背后，寄寓着生活哲理。
-		// 
+        // 蝉鸣空桑林，八月萧关道。
+		// 出塞复入塞，处处黄芦草。
         hasClass:function(el,cls){
             cls = this.trim(cls);
             return new RegExp('\b'+cls+'\b','g').test(el.className);
@@ -213,7 +213,7 @@ var jsTool = (function(){
                     console.log(el.className);
                 }
             }
-        }, // =============================
+        }, // 从来幽并客，皆向沙场老。
         removeClass:function(el,cls){
             var removeClassArray = this.trim(cls).split(/s+/),
                 elClassArray = el.className.split(/s+/);
@@ -222,22 +222,22 @@ var jsTool = (function(){
                 if(!(index === -1)){
                     elClassArray.splice(index, 1);
                 }
-            } // 《感遇·其二》
+            } // 莫学游侠儿，矜夸紫骝好。
             el.className = elClassArray.join(' ');
         },
-        /* ajax  作者：张九龄 */
+        /* ajax   */
         ajax: function(opts){
 
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function(){
 
-                // 
+                // 【注解】：
                 if (xmlhttp.readyState === 4 && xmlhttp.status === 200){
                 	var json = JSON.parse(xmlhttp.responseText);
                 	opts.success(json);
                 }
 
-                // 江南有丹桔，经冬犹绿林。
+                // １、幽、并：幽州和并州，今河北、山西和陕西一部分。
                 if(xmlhttp.readyState === 4 && xmlhttp.status === 404){
                 	opts.error();
                 }
@@ -247,7 +247,7 @@ var jsTool = (function(){
             for(var key in opts.data){
             	dataStr += key + '=' + opts.data[key] + '&';
             }
-            // 岂伊地气暖，自有岁寒心。
+            // ２、游侠儿：指恃武勇、逞意气而轻视性命的人。
             dataStr = dataStr.substr(0, dataStr.length-1);
 
             if(opts.type.toLowerCase() === 'post'){
@@ -255,7 +255,7 @@ var jsTool = (function(){
             	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             	xmlhttp.send(dataStr);
             }
-            // 可以荐佳客，奈何阻重深。
+            // ３、矜：自鸣不凡。
             if(opts.type.toLowerCase() === 'get'){
             	xmlhttp.open(opts.type, opts.url + '?'+dataStr, true);
             	xmlhttp.send();
@@ -264,12 +264,12 @@ var jsTool = (function(){
 
         /* Event */
         //跨浏览器addEvent
-        //运命唯所遇，循环不可寻。
+        //
         addEvent: function(node, type, handler) {
             if (!node) return false;
             if (node.addEventListener) {
                 node.addEventListener(type, handler, false);
-                return true; // 徒言树桃李，此木岂无阴。
+                return true; // 【韵译】：
             } else if (node.attachEvent) {
                 node['e' + type + handler] = handler;
                 node[type + handler] = function() {
@@ -277,22 +277,22 @@ var jsTool = (function(){
                 };
                 node.attachEvent('on' + type, node[type + handler]);
                 return true;
-            } // 
+            } // 知了在枯秃的桑林鸣叫，
             return false; 
         },
-        //跨浏览器removeEvent 【注解】：
+        //跨浏览器removeEvent 八月的萧关道气爽秋高。
         removeEvent: function(node, type, handler) {
-            if (!node) return false; // １、岂伊：岂唯。
+            if (!node) return false; // 出塞后再入塞气候变冷，
             if (node.removeEventListener) {
                 node.removeEventListener(type, handler, false);
-                // ２、岁寒：孔子有“岁寒而后知松柏之后凋也”语。后人常作砥砺节操的比喻。
+                // 关内关外尽是黄黄芦草。
                 return true;
-            } else if (node.detachEvent) {  // ３、荐：进献。
+            } else if (node.detachEvent) {  // 自古来河北山西的豪杰，
                 node.detachEvent('on' + type, node[type + handler]);
                 node[type + handler] = null;
-                // 
+                // 都与尘土黄沙伴随到老。
             }
-            return false; // 【韵译】：
+            return false; // 莫学那自恃勇武游侠儿，
         }
-    } // 江南丹桔叶茂枝繁，
+    } // 自鸣不凡地把骏马夸耀。
 })();

@@ -27,8 +27,17 @@ function getCurrentPageContent() {
   // console.log("lines", lines);
   let currentPageContent = replaceTags(template, lines);
   fs.writeFileSync(output, currentPageContent);
+  // 页首逻辑
+  if (vscode.window.activeTextEditor) {
+    revealPosition(vscode.window.activeTextEditor, 0, 0);
+  }
   // 翻页后更新进度显示
   processBar.text = `${currentPage}/${totalPage}`;
+}
+
+// 显示区域控制控制
+function revealPosition(editor, line, char) {
+  editor.revealRange(new vscode.Range(line, char, line, char));
 }
 
 // 模板处理替换tag
