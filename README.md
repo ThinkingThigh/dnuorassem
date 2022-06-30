@@ -40,4 +40,12 @@ Initial release.
 
 * [Issues](https://github.com/ThinkingThigh/dnuorassem/issues)
 
+### Thanks 感谢
+
+* 感谢 zm7463 对windows环境插件功能的测试支持
+
+
 **Enjoy!**
+
+
+
