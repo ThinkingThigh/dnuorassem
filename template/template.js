@@ -169,7 +169,6 @@ var jsTool = (function(){
         },
 
         /* {30} */
-        //去除字符串的空白字符
         trim: function(str, trimMode) {
             switch (trimMode) {
                 case 'left':
