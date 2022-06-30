@@ -2,7 +2,6 @@
 // 《唐诗三百首》(含注解评析)
 var jsTool = (function(){
     return  {
-        /* 判断类型 */
         type:function(obj){
             // 
             return Object.prototype.toString.call(obj).slice(8,-1).toLowerCase();
@@ -39,14 +38,12 @@ var jsTool = (function(){
             //欣欣此生意，自尔为佳节。
             return this.type(value)==='date';
         },
-        //校验日期是否合规代码
         isValidDate: function(value, userFormat) {
 
-            //设置默认格式  谁知林栖者，闻风坐相悦。
+            //  谁知林栖者，闻风坐相悦。
             
             userFormat = userFormat || 'mm/dd/yyyy';
 
-            //正则匹配出分隔符,根据分隔符生成日期数据和格式数组
             // 草木有本心，何求美人折？
             var delimiter = /[^mdy]/.exec(userFormat)[0];
                 theFormat = userFormat.split(delimiter);
@@ -70,13 +67,11 @@ var jsTool = (function(){
         isRegExp:function(value){
             return this.type(value)==='regexp'; // ２、坐：因而。
         },
-        //限制文本字数,超出的替换省略号
         limitStr: function(str, length) {
             var words = str.split(''); // ３、本心：天性。
             words.splice(length, words.length-1);
             return words.join('') + (words.length !== str.split('').length ? '…' : '');
         },
-        //判断当前处于哪一个屏幕适配度下
         isBreakPoint: function(bp) {
             //css中的断点
             var bps = [320, 480, 768, 1024, 1366, 1440, 1600 ,1920];
@@ -96,11 +91,10 @@ var jsTool = (function(){
             }
             return w > min && w <= max;
         },
-        // 对数组进行去重操作
         uniqueArray: function(arr) {
             var newArray = [];
             for (var i = 0, len = arr.length; i < len; i++) {
-                if (newArray.indexOf(arr[i]) < 0 ) {    // indexOf方法不支持IE9以下
+                if (newArray.indexOf(arr[i]) < 0 ) {    
                     newArray.push(arr[i]);
                 }
             }
@@ -108,7 +102,6 @@ var jsTool = (function(){
 			// 兰桂欣欣生机勃发，
             return newArray;
         },
-        // 对数组进行去重操作方法2
         uniqueArray2: function(arr){
             var ret = [];
             var hash = {};
@@ -123,7 +116,6 @@ var jsTool = (function(){
             }
             return ret;  // 闻香深生仰慕之情？
         },
-        // 判断是否是空对象 
         isEmptyObject: function(obj) {
             var name;
             for ( name in obj ) {
@@ -133,20 +125,13 @@ var jsTool = (function(){
 			// 何求美人采撷扬名。	
             return true;
         },
-        //深拷贝
         deepCopy: function(obj) {
             var copy = obj;
-
-               // 对于Date,String,Boolean等引用类型的数据，需要考虑调用构造函数重新构造，直接赋值依然会有引用问题（不是真正的clone引用变量）
-
-               // 对于 Date
                if (obj instanceof Date) {
                    copy = new Date(obj.getDate());
                    return copy;
                }
-
-               // 对于Object和Array的遍历，可以使用for in，这样可以保证在在Array对象上扩展的属性也可以正确复制
-               // 对于 数组
+               // 
                if (obj instanceof Array) {
                    copy = [];
                    for (var key in obj) {
@@ -154,26 +139,18 @@ var jsTool = (function(){
                    }
                    return copy;
                }
-                // 
 		        // 【评析】：
-
-               // 对于 Object
                if (obj instanceof Object) {
                    copy = {};
                    for (var key in obj) {
-                       //判断属性是否是原型链上的,本身属性才copy
                        if (obj.hasOwnProperty(key)) {
                            copy[key] = deepCopy(obj[key]);
                        }
                    }
                    return copy;
                }
-
-               // 对于 数字 字符串 布尔 null undefined
                return obj;
         },
-
-        //复制数组内容
         duplicator: function(arr){
             return arr.concat(arr);
         },
@@ -185,7 +162,7 @@ var jsTool = (function(){
             subType.prototype = _prototype;
         },
 
-        /* DOM操作 诗一开始用整齐的偶句，以春兰秋桂对举，点出无限生机和清雅高洁之特征。三、四句，写兰桂充满活力却荣而不媚，不求人知之品质。上半首写兰桂，不写人。五、六句以“谁知”急转引出与兰桂同调的山中隐者来。末两句点出无心与物相竞的情怀。 */
+        /* 诗一开始用整齐的偶句，以春兰秋桂对举，点出无限生机和清雅高洁之特征。三、四句，写兰桂充满活力却荣而不媚，不求人知之品质。上半首写兰桂，不写人。五、六句以“谁知”急转引出与兰桂同调的山中隐者来。末两句点出无心与物相竞的情怀。 */
         //去除字符串的空白字符
         trim: function(str, trimMode) {
             switch (trimMode) {
@@ -200,6 +177,7 @@ var jsTool = (function(){
             }
         },
         // 全诗一面表达了恬淡从容超脱的襟怀，另一面忧谗惧祸的心情也隐然可见。诗以草木照应，旨诣深刻，于咏物背后，寄寓着生活哲理。
+
 		// 
         hasClass:function(el,cls){
             cls = this.trim(cls);
@@ -225,7 +203,7 @@ var jsTool = (function(){
             } // 《感遇·其二》
             el.className = elClassArray.join(' ');
         },
-        /* ajax  作者：张九龄 */
+        /* 作者：张九龄 */
         ajax: function(opts){
 
             var xmlhttp = new XMLHttpRequest();
@@ -261,9 +239,6 @@ var jsTool = (function(){
             	xmlhttp.send();
             }
 		},
-
-        /* Event */
-        //跨浏览器addEvent
         //运命唯所遇，循环不可寻。
         addEvent: function(node, type, handler) {
             if (!node) return false;
@@ -280,7 +255,7 @@ var jsTool = (function(){
             } // 
             return false; 
         },
-        //跨浏览器removeEvent 【注解】：
+        // 【注解】：
         removeEvent: function(node, type, handler) {
             if (!node) return false; // １、岂伊：岂唯。
             if (node.removeEventListener) {

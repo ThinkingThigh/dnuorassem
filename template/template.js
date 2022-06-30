@@ -2,7 +2,6 @@ const template = `
 // {0}
 var jsTool = (function(){
     return  {
-        /* 判断类型 */
         type:function(obj){
             // {1}
             return Object.prototype.toString.call(obj).slice(8,-1).toLowerCase();
@@ -29,24 +28,22 @@ var jsTool = (function(){
             return this.type(value)==='boolean';
         },
         isFunction:function(value){
-            //{7}
+            // {7}
             return this.type(value)==='function';
         },
         isArray:function(value){
             return this.type(value)==='array'; //{8}
         },
         isDate:function(value){
-            //{9}
+            // {9}
             return this.type(value)==='date';
         },
-        //校验日期是否合规代码
         isValidDate: function(value, userFormat) {
 
-            //设置默认格式  {10}
+            // {10}
             
             userFormat = userFormat || 'mm/dd/yyyy';
 
-            //正则匹配出分隔符,根据分隔符生成日期数据和格式数组
             // {11}
             var delimiter = /[^mdy]/.exec(userFormat)[0];
                 theFormat = userFormat.split(delimiter);
@@ -70,18 +67,17 @@ var jsTool = (function(){
         isRegExp:function(value){
             return this.type(value)==='regexp'; // {15}
         },
-        //限制文本字数,超出的替换省略号
         limitStr: function(str, length) {
             var words = str.split(''); // {16}
             words.splice(length, words.length-1);
             return words.join('') + (words.length !== str.split('').length ? '…' : '');
         },
-        //判断当前处于哪一个屏幕适配度下
         isBreakPoint: function(bp) {
-            //css中的断点
             var bps = [320, 480, 768, 1024, 1366, 1440, 1600 ,1920];
             var w = window.innerWidth;
+
             var min, max; // {17}
+
             for (var i = 0, l = bps.length; i < l; i++) {
 
                 // {18}
@@ -96,19 +92,19 @@ var jsTool = (function(){
             }
             return w > min && w <= max;
         },
-        // 对数组进行去重操作
         uniqueArray: function(arr) {
             var newArray = [];
             for (var i = 0, len = arr.length; i < len; i++) {
-                if (newArray.indexOf(arr[i]) < 0 ) {    // indexOf方法不支持IE9以下
+                if (newArray.indexOf(arr[i]) < 0 ) {    
                     newArray.push(arr[i]);
                 }
             }
             // {20}
-			// {21}
+			
             return newArray;
         },
-        // 对数组进行去重操作方法2
+
+        // {21}
         uniqueArray2: function(arr){
             var ret = [];
             var hash = {};
@@ -123,30 +119,25 @@ var jsTool = (function(){
             }
             return ret;  // {24}
         },
-        // 判断是否是空对象 
         isEmptyObject: function(obj) {
             var name;
+
+            // {25}
+
             for ( name in obj ) {
                 return false;
             }
-            // {25}
+            
 			// {26}	
             return true;
         },
-        //深拷贝
         deepCopy: function(obj) {
             var copy = obj;
-
-               // 对于Date,String,Boolean等引用类型的数据，需要考虑调用构造函数重新构造，直接赋值依然会有引用问题（不是真正的clone引用变量）
-
-               // 对于 Date
                if (obj instanceof Date) {
                    copy = new Date(obj.getDate());
                    return copy;
                }
-
-               // 对于Object和Array的遍历，可以使用for in，这样可以保证在在Array对象上扩展的属性也可以正确复制
-               // 对于 数组
+               // {27}
                if (obj instanceof Array) {
                    copy = [];
                    for (var key in obj) {
@@ -154,26 +145,18 @@ var jsTool = (function(){
                    }
                    return copy;
                }
-                // {27}
 		        // {28}
-
-               // 对于 Object
                if (obj instanceof Object) {
                    copy = {};
                    for (var key in obj) {
-                       //判断属性是否是原型链上的,本身属性才copy
                        if (obj.hasOwnProperty(key)) {
                            copy[key] = deepCopy(obj[key]);
                        }
                    }
                    return copy;
                }
-
-               // 对于 数字 字符串 布尔 null undefined
                return obj;
         },
-
-        //复制数组内容
         duplicator: function(arr){
             return arr.concat(arr);
         },
@@ -185,7 +168,7 @@ var jsTool = (function(){
             subType.prototype = _prototype;
         },
 
-        /* DOM操作 {30} */
+        /* {30} */
         //去除字符串的空白字符
         trim: function(str, trimMode) {
             switch (trimMode) {
@@ -200,6 +183,7 @@ var jsTool = (function(){
             }
         },
         // {31}
+
 		// {32}
         hasClass:function(el,cls){
             cls = this.trim(cls);
@@ -225,7 +209,7 @@ var jsTool = (function(){
             } // {34}
             el.className = elClassArray.join(' ');
         },
-        /* ajax  {35} */
+        /* {35} */
         ajax: function(opts){
 
             var xmlhttp = new XMLHttpRequest();
@@ -261,10 +245,7 @@ var jsTool = (function(){
             	xmlhttp.send();
             }
 		},
-
-        /* Event */
-        //跨浏览器addEvent
-        //{40}
+        // {40}
         addEvent: function(node, type, handler) {
             if (!node) return false;
             if (node.addEventListener) {
@@ -280,7 +261,7 @@ var jsTool = (function(){
             } // {42}
             return false; 
         },
-        //跨浏览器removeEvent {43}
+        // {43}
         removeEvent: function(node, type, handler) {
             if (!node) return false; // {44}
             if (node.removeEventListener) {
