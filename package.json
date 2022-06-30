@@ -2,8 +2,14 @@
   "name": "dnuorassem",
   "displayName": "dnuorassem",
   "description": "Code annotation text reader.",
+  "keywords": [
+		"mess around",
+		"read",
+		"book",
+		"novel"
+	],
   "publisher": "thinkingthigh",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.68.0"

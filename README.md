@@ -11,7 +11,7 @@ A text reader in code annotation for VS Code.
 
 ## 如何使用
 
-* 将要阅读的文本文件名修改为 "doc.txt" 并放到如下路径 `/Users/***/.vscode/extensions/thinkingthigh.dnuorassem-1.0.1/docs/ ` (macOS) `C:\Users\***\.vscode\extensions\thinkingthigh.dnuorassem-1.0.1\docs\` (Windows)。
+* 将要阅读的文本文件名修改为 "doc.txt" 并放到如下路径 `/Users/***/.vscode/extensions/thinkingthigh.dnuorassem-1.0.2/docs/ ` (macOS) `C:\Users\***\.vscode\extensions\thinkingthigh.dnuorassem-1.0.2\docs\` (Windows)。
 
 * 按快捷键组合 `command+shift+,` (macOS) 或 `ctrl+shift+,` (Windows) 启动插件。
 
@@ -19,13 +19,18 @@ A text reader in code annotation for VS Code.
 
 ## How to use
 
-* Change your text file name to "doc.txt" and put it in this directory `/Users/***/.vscode/extensions/thinkingthigh.dnuorassem-1.0.1/docs/ ` (macOS) `C:\Users\***\.vscode\extensions\thinkingthigh.dnuorassem-1.0.1\docs\` (Windows)
+* Change your text file name to "doc.txt" and put it in this directory `/Users/***/.vscode/extensions/thinkingthigh.dnuorassem-1.0.2/docs/ ` (macOS) `C:\Users\***\.vscode\extensions\thinkingthigh.dnuorassem-1.0.2\docs\` (Windows)
 
 * Press `command+shift+,` (macOS) or `ctrl+shift+,` (Windows) to launch it.
 
 * Function buttons（"↑","↓","goto"...) are displayed on the status bar.
 
 ## Release Notes
+
+### 1.0.2
+
+模板优化，去除影响阅读的部分注释。
+
 ### 1.0.1
 
 完善 README 文件 并添加应用图标。
