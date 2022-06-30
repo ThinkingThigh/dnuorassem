@@ -4,6 +4,11 @@ VS Code 注释文本阅读插件
 
 A text reader in code annotation for VS Code.
 
+## 安装地址
+
+[https://marketplace.visualstudio.com/items?itemName=thinkingthigh.dnuorassem](https://marketplace.visualstudio.com/items?itemName=thinkingthigh.dnuorassem)
+
+
 ## 如何使用
 
 * 将要阅读的文本文件名修改为 "doc.txt" 并放到如下路径 `/Users/***/.vscode/extensions/thinkingthigh.dnuorassem-1.0.1/docs/ ` (macOS) `C:\Users\***\.vscode\extensions\thinkingthigh.dnuorassem-1.0.1\docs\` (Windows)。
