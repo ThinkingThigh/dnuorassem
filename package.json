@@ -9,7 +9,7 @@
 		"novel"
 	],
   "publisher": "thinkingthigh",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.68.0"
