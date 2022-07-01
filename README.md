@@ -4,6 +4,8 @@ VS Code 注释文本阅读插件
 
 A text reader in code annotation for VS Code.
 
+![](https://raw.githubusercontent.com/ThinkingThigh/dnuorassem/main/sample.png)
+
 ## 安装地址
 
 [https://marketplace.visualstudio.com/items?itemName=thinkingthigh.dnuorassem](https://marketplace.visualstudio.com/items?itemName=thinkingthigh.dnuorassem)
